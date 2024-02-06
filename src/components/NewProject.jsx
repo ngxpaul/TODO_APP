@@ -18,21 +18,21 @@ export default function NewProject({ onAdd }) {
       dueDate: enteredDueDate,
     });
     if (
-      enteredTitle.trim() == "" ||
-      enteredDescription.trim() == "" ||
-      enteredDueDate.trim() == ""
-      ) {
-        modal.current.open();
-        return;
-      }
+      enteredTitle.trim() === "" ||
+      enteredDescription.trim() === "" ||
+      enteredDueDate.trim() === ""
+    ) {
+      modal.current.open();
+      return;
     }
-      return (
+  }
+  return (
     <>
-      <Modal ref={modal} buttonCaptop="Okay"/>
-      <h2>Invalid Input</h2>
-      <p>Oops ... look likes you forgot to enter a value</p>
-      <p>Please make sure you provide a valid for every input field </p>
-      <Modal />
+      <Modal ref={modal} buttonCaption="Okay">
+        <h2>Invalid Input</h2>
+        <p>Oops ... look likes you forgot to enter a value</p>
+        <p>Please make sure you provide a valid for every input field </p>
+      </Modal>
       <div className="w-[35rem] mt-16">
         <menu className="flex items-center justify-end gap-4 my-4">
           <li>
