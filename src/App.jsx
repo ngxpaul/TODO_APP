@@ -2,6 +2,7 @@ import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
 import { ProjectsSidebar } from "./components/ProjectsSidebar";
 import { useState } from "react";
+import SelectedProject from "./components/SelectedProject";
 function App() {
   const [projectState, setProjectState] = useState({
     // selectedProjectID: underfined => state for not adding any projects
@@ -9,12 +10,25 @@ function App() {
     //To add projects are created by users
     projects: [],
   });
-  function handleStartAddProject() {
+  function handleSelectProject(id){
     setProjectState((prevState) => {
       //...prevState : copy of the previous state
       //selectedProjectID underfined => null : signal for now adding new projects
+      return { ...prevState, selectedProjectID: id };
+    });
+  }
+  function handleStartAddProject() {
+    setProjectState((prevState) => {
       return { ...prevState, selectedProjectID: null };
     });
+  }
+  function handleCancelAddProject(){
+    setProjectState((preState) =>{
+      return{
+        ...preState,
+        selectedProjectID:undefined,
+      }
+    })
   }
   function handleAddProject(projectData) {
     setProjectState((prevState) => {
@@ -29,9 +43,10 @@ function App() {
     });
   }
   console.log(projectState);
-  let content;
+  const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectID)
+  let content = <SelectedProject project={selectedProject}/>;
   if (projectState.selectedProjectID === null) {
-    content = <NewProject onAdd={handleAddProject} />;
+    content = <NewProject onCancel={handleCancelAddProject} onAdd={handleAddProject} />;
   } else {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }
@@ -40,8 +55,9 @@ function App() {
       <ProjectsSidebar
         onStartAddProject={handleAddProject}
         projects={projectState.projects}
+        onSelectProject={handleSelectProject}
       />
-      {content}
+    {content}
     </main>
   );
 }
