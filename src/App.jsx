@@ -10,7 +10,7 @@ function App() {
     //To add projects are created by users
     projects: [],
   });
-  function handleSelectProject(id){
+  function handleSelectProject(id) {
     setProjectState((prevState) => {
       //...prevState : copy of the previous state
       //selectedProjectID underfined => null : signal for now adding new projects
@@ -22,13 +22,13 @@ function App() {
       return { ...prevState, selectedProjectID: null };
     });
   }
-  function handleCancelAddProject(){
-    setProjectState((preState) =>{
-      return{
+  function handleCancelAddProject() {
+    setProjectState((preState) => {
+      return {
         ...preState,
-        selectedProjectID:undefined,
-      }
-    })
+        selectedProjectID: undefined,
+      };
+    });
   }
   function handleAddProject(projectData) {
     setProjectState((prevState) => {
@@ -43,13 +43,18 @@ function App() {
     });
   }
   console.log(projectState);
-  const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectID)
-  let content = <SelectedProject project={selectedProject}/>;
+  const selectedProject = projectState.projects.find(
+    (project) => project.id === projectState.selectedProjectID
+  );
+  let    content = <SelectedProject project={selectedProject} />;
+
   if (projectState.selectedProjectID === null) {
-    content = <NewProject onCancel={handleCancelAddProject} onAdd={handleAddProject} />;
-  } else {
+    content = (
+      <NewProject onCancel={handleCancelAddProject} onAdd={handleAddProject} />
+    );
+  } else if (projectState.selectedProjectID === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  }
+  } 
   return (
     <main className="h-screen flex gap-8">
       <ProjectsSidebar
@@ -57,7 +62,7 @@ function App() {
         projects={projectState.projects}
         onSelectProject={handleSelectProject}
       />
-    {content}
+      {content}
     </main>
   );
 }
