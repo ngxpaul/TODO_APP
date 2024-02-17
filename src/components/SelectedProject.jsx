@@ -12,8 +12,9 @@ export default function SelectedProject({ project }) {
           <button className="text-stone-600 hover:text-stone-950">Delete</button>
         </div>
         <p className="mb-4 text-stone-400">{formattedDate}</p>
-        <p className="text-stone-600 whitespace-pre-wrap">{project.decription}</p>
+        <p className="text-stone-600 whitespace-pre-wrap">{project.description}</p>
       </header>
+      Tasks
     </div>
   );
 }
