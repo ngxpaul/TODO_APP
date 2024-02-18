@@ -42,11 +42,24 @@ function App() {
       };
     });
   }
+  function handleDeleteProject(id) {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectID: undefined,
+        //update projects array in an imuutable way
+        //so we dont edit the original array in memmory
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectID
+        ),
+      };
+    });
+  }
   console.log(projectState);
   const selectedProject = projectState.projects.find(
     (project) => project.id === projectState.selectedProjectID
   );
-  let    content = <SelectedProject project={selectedProject} />;
+  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject}/>;
 
   if (projectState.selectedProjectID === null) {
     content = (
@@ -54,7 +67,7 @@ function App() {
     );
   } else if (projectState.selectedProjectID === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  } 
+  }
   return (
     <main className="h-screen flex gap-8">
       <ProjectsSidebar
