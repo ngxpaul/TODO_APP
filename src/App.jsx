@@ -9,7 +9,25 @@ function App() {
     selectedProjectID: undefined,
     //To add projects are created by users
     projects: [],
+    tasks: [],
   });
+  function handleAddTask(text) {
+    setProjectState((prevState) => {
+      const taskID = Math.random();
+      const newTask = {
+        text: text,
+        projectID: prevState.selectedProjectID,
+        id: taskID,
+      };
+      return {
+        ...prevState,
+        // selectedProjectID: undefined,
+        tasks: [newTask, ...prevState.tasks],
+      };
+    });
+  }
+
+  function handleDeleteTask() {}
   function handleSelectProject(id) {
     setProjectState((prevState) => {
       //...prevState : copy of the previous state
@@ -38,6 +56,7 @@ function App() {
       };
       return {
         ...prevState,
+        selectedProjectID: undefined,
         projects: [...prevState.projects, newProject],
       };
     });
@@ -59,7 +78,15 @@ function App() {
   const selectedProject = projectState.projects.find(
     (project) => project.id === projectState.selectedProjectID
   );
-  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject}/>;
+  let content = (
+    <SelectedProject
+      project={selectedProject}
+      onDelete={handleDeleteProject}
+      onAddTask={handleAddTask}
+      onDeleteTask={handleDeleteTask}
+      tasks={projectState.tasks}
+    />
+  );
 
   if (projectState.selectedProjectID === null) {
     content = (
